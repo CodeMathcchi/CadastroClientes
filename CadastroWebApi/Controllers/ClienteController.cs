@@ -35,7 +35,7 @@ namespace CadastroWebApi.Controllers
         {
             try
             {
-                var result = await Repositorio.GetClienteById(clienteId);
+                var result = await Repositorio.GetClienteByIdAsync(clienteId);
                 return Ok(result);
             }
             catch(Exception e)
@@ -45,19 +45,65 @@ namespace CadastroWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Cliente cliente)
+        public async Task<IActionResult> Post(Cliente clienteModelo)
         {
             try
             {
-                Repositorio.Add(cliente);
+                Repositorio.Add(clienteModelo);
 
                 var result = await Repositorio.SaveChangesAsync(); 
 
                 if(!result)
                     throw new Exception("Falha ao Salvar");
 
-                return Ok(cliente);
+                return Ok(clienteModelo);
 
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("{clienteId}")]
+        public async Task<IActionResult> Put(long clienteId, Cliente clienteModelo)
+        {
+            try
+            {
+                var cliente = await Repositorio.GetClienteByIdAsync(clienteId);
+                if(cliente == null) return NotFound();
+
+                Repositorio.Update(clienteModelo);
+
+                var result = await Repositorio.SaveChangesAsync(); 
+
+                if(!result)
+                    throw new Exception("Falha ao Salvar");
+
+                return Ok(clienteModelo);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{clienteId}")]
+        public async Task<IActionResult> Delete(long clienteId)
+        {
+            try
+            {
+                var cliente = await Repositorio.GetClienteByIdAsync(clienteId);
+                if(cliente == null) return NotFound();
+
+                Repositorio.Delete(cliente);
+
+                var result = await Repositorio.SaveChangesAsync(); 
+
+                if(!result)
+                    throw new Exception("Falha ao Salvar");
+
+                return Ok("Removido");
             }
             catch(Exception e)
             {

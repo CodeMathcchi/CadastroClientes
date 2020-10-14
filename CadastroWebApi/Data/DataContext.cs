@@ -15,10 +15,10 @@ namespace CadastroWebApi.Data
         {
             modelBuilder.Entity<Cliente>()
             .HasData(new List<Cliente>(){
-                new Cliente(1, "Matheus Gomes Roberto dos Santos", new DateTime(1995, 12, 14), "Maculino", "95055-268", "Rua Alfeiros", "4", "", "Muggles", "PR", "Maringá"),
-                new Cliente(2, "Lucas Souza de Gois", new DateTime(1999, 12, 27), "Maculino", "95055-268", "Rua Alfeiros", "4", "", "Muggles", "PR", "Maringá"),
+                new Cliente(1, "Matheus Gomes Roberto dos Santos", new DateTime(1995, 12, 14), "Masculino", "95055-268", "Rua Alfeiros", "4", "", "Muggles", "PR", "Maringá"),
+                new Cliente(2, "Lucas Souza de Gois", new DateTime(1999, 12, 27), "Masculino", "95055-268", "Rua Alfeiros", "4", "", "Muggles", "PR", "Maringá"),
                 new Cliente(3, "Bethy da Silva", new DateTime(1941, 2, 21), "Feminino", "823489-025", "Alameda Yaya", "257", "", "Gopauva", "SP", "São Paulo"),
-                new Cliente(4, "Lívia Peron Bernardo", new DateTime(1996, 1, 17), "Feminino", "78964-568", "Rua da Toalha", "42", "Apt. 1101", "Fim do Universo", "PR", "Maringá")
+                new Cliente(4, "Lívia Bernardo", new DateTime(1996, 1, 17), "Feminino", "78964-568", "Rua da Toalha", "42", "Apt. 1101", "Fim do Universo", "PR", "Maringá")
             });
         }
 

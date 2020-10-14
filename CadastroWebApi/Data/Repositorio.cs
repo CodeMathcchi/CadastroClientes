@@ -41,7 +41,7 @@ namespace CadastroWebApi.Data
             return await query.ToArrayAsync();
         }
 
-        public async Task<Cliente> GetClienteById(long clienteId)
+        public async Task<Cliente> GetClienteByIdAsync(long clienteId)
         {
             IQueryable<Cliente> query = Context.Clientes;
 

@@ -10,6 +10,6 @@ namespace CadastroWebApi.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveChangesAsync();
         Task<Cliente[]> GetAllClientesAsync();
-        Task<Cliente> GetClienteById(long clienteId);
+        Task<Cliente> GetClienteByIdAsync(long clienteId);
     }
 }
