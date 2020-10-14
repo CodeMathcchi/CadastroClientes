@@ -25,7 +25,7 @@
             <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
           </svg></button>
         </td>
-        <th scope="row">{{cliente.id}}</th>
+        <th scope="row">{{cliente.clienteId}}</th>
           <td>{{cliente.nome}}</td>
           <td>{{cliente.dataNascimento}}</td>
           <td>{{cliente.sexo}}</td>
@@ -35,7 +35,7 @@
   </div>
   <div class="col-sm-6" *ngIf="clienteSelecionado">
     <div class="row">
-      <div class="mr-auto"><app-titulo [titulo]="'Cód. Cliente: #' + clienteSelecionado.id"></app-titulo></div>
+      <div class="mr-auto"><app-titulo [titulo]="'Cód. Cliente: #' + clienteSelecionado.clienteId"></app-titulo></div>
       
       <div class=""><button class="btn btn-outline-danger" (click)="voltar()">Fechar</button></div>
     </div>
@@ -48,7 +48,7 @@
         <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
       </svg> Remover</button>
     </div>
-    <form [formGroup]="clienteForm" (submit)="clienteSubmit()">
+    <form [formGroup]="clienteForm" (submit)="salvarCliente()">
       <div class="form-group">
         <label for="formGroupExampleInput">Nome <i style="color: red;">*</i></label>
         <input type="text" class="form-control" formControlName="nome" required [readonly]="!clienteEmEdicao">
@@ -67,6 +67,10 @@
       <h2>Endereço</h2>
       <div class="row btn-group">
         <div class="form-group col-sm-9">
+          <label for="formGroupExampleInput2">CEP</label>
+          <input type="text" class="form-control" formControlName="cep" [readonly]="!clienteEmEdicao">
+        </div>
+        <div class="form-group col-sm-9">
           <label for="formGroupExampleInput2">Rua</label>
           <input type="text" class="form-control" formControlName="rua" [readonly]="!clienteEmEdicao">
         </div>
@@ -76,8 +80,22 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="formGroupExampleInput2">Complemento</label>
+        <input type="text" class="form-control" formControlName="complemento" [readonly]="!clienteEmEdicao">
+      </div>
+      <div class="form-group">
         <label for="formGroupExampleInput2">Bairro</label>
         <input type="text" class="form-control" formControlName="bairro" [readonly]="!clienteEmEdicao">
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label for="formGroupExampleInput2">Estado</label>
+          <input type="text" class="form-control" formControlName="estado" [readonly]="!clienteEmEdicao">
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="formGroupExampleInput2">Cidade</label>
+          <input type="text" class="form-control" formControlName="cidade" [readonly]="!clienteEmEdicao">
+        </div>
       </div>
       <div class="form-footer">
         <button (click)="cancelar()" type="submit" class="btn btn-danger" [disabled]="!clienteForm.valid" [hidden]="!clienteEmEdicao">Cancelar</button>

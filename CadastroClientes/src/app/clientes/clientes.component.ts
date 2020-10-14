@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Cliente } from '../models/cliente';
+import { ClienteService } from './cliente.service';
 
 @Component({
   selector: 'app-clientes',
@@ -17,29 +18,16 @@ export class ClientesComponent implements OnInit {
   public clienteSelecionado: Cliente;
   public clienteEmEdicao: Cliente;
 
-  clientes = [
-    {
-      id : 1,
-      nome : 'Patrick',
-      dataNascimento : '27/12/1999',
-      sexo : 'M',
-      rua : 'Rua Pioneiro Herculano Ferreira',
-      numero : '556',
-      bairro : 'Conj. Hab. Sanenge III'
-    },
-    {
-      id : 2,
-      nome : 'Matheus',
-      dataNascimento : '14/12/1995',
-      sexo : 'M',
-      rua : 'Avenida Londrina',
-      numero : '1598',
-      bairro : 'Conjunto Aeroporto'
-    }
-  ];
+  public clientes : Cliente[];
 
   modalRef: BsModalRef;
-
+  
+  constructor(private fb: FormBuilder, 
+              private modalService: BsModalService, 
+              private clienteService: ClienteService) {
+    this.criarForm();
+  }
+  
   openModal(template: TemplateRef<any>, cliente: Cliente): void {
     this.modalRef = this.modalService.show(template);
     this.editarCliente(cliente);
@@ -55,15 +43,25 @@ export class ClientesComponent implements OnInit {
     this.clienteForm.patchValue(cliente);
   }
 
-  constructor(private fb: FormBuilder, private modalService: BsModalService) {
-    this.criarForm();
+  ngOnInit(): void {
+    this.carregarClientes();
   }
 
-  ngOnInit(): void {
+  carregarClientes(): void{
+    this.clienteService.getAll().subscribe(
+      (clientes: Cliente[]) => {
+        this.clientes = clientes;
+        console.log(this.clientes);
+      },
+      (erro: any) => {
+        console.error(erro);
+      }
+    );
   }
 
   selecionarCliente(cliente: Cliente): void {
     this.clienteSelecionado = cliente;
+    console.log(cliente);
     this.clienteForm.patchValue(cliente);
   }
 
@@ -79,16 +77,31 @@ export class ClientesComponent implements OnInit {
 
   criarForm(): void {
     this.clienteForm = this.fb.group({
+      clienteId: [''],
       nome : ['', Validators.required],
       dataNascimento : ['', Validators.required],
       sexo : ['', Validators.required],
+      cep: [''],
       rua : [''],
       numero : [''],
-      bairro : ['']
+      complemento: [''],
+      bairro : [''],
+      estado: [''],
+      cidade: ['']
     });
   }
 
-  clienteSubmit(): void{
-    console.log(this.clienteForm.value);
+  salvarCliente(): void{
+    var cliente = this.clienteForm.value;
+    this.clienteService.put(cliente.clienteId, cliente).subscribe(
+      (cliente: Cliente) => {
+        console.log(cliente);
+        this.carregarClientes();
+        this.clienteEmEdicao = null;
+      },
+      (erro: any) => {
+        console.log(erro);
+      }
+    );
   }
 }
