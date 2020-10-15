@@ -36,7 +36,6 @@ namespace CadastroWebApi.Models
 
         public long ClienteId { get; set; }
         public string Nome { get; set; }
-        [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataNascimento { get; set; }
         public string Sexo { get; set; }
         public string Cep { get; set; }

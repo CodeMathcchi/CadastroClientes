@@ -103,7 +103,7 @@ namespace CadastroWebApi.Controllers
                 if(!result)
                     throw new Exception("Falha ao Salvar");
 
-                return Ok("Removido");
+                return Ok();
             }
             catch(Exception e)
             {
