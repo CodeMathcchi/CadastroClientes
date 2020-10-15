@@ -32,4 +32,9 @@ export class ClienteService {
   delete(clienteId: number){
     return this.http.delete(`${this.baseUrl}${clienteId}`);
   }
+
+  getEndereco(cep: string){
+    var urlApi = `https://viacep.com.br/ws/${cep}/json/`;
+    return this.http.get(urlApi);
+  }
 }

@@ -17,8 +17,8 @@ export class ClientesComponent implements OnInit {
 
   public clienteSelecionado: Cliente;
   public clienteEmEdicao: Cliente;
-
   public clientes : Cliente[];
+  public endereco: object;
 
   modalRef: BsModalRef;
   
@@ -28,9 +28,9 @@ export class ClientesComponent implements OnInit {
     this.criarForm();
   }
   
-  openModal(template: TemplateRef<any>, cliente: Cliente): void {
+  openModal(template: TemplateRef<any>): void {
+    this.criarForm();
     this.modalRef = this.modalService.show(template);
-    this.editarCliente(cliente);
   }
 
   closeModal(): void{
@@ -40,6 +40,7 @@ export class ClientesComponent implements OnInit {
 
   editarCliente(cliente: Cliente): void{
     this.clienteEmEdicao = cliente;
+    this.clienteSelecionado = cliente;
     this.clienteForm.patchValue(cliente);
   }
 
@@ -47,7 +48,7 @@ export class ClientesComponent implements OnInit {
     this.carregarClientes();
   }
 
-  carregarClientes(): void{
+  public carregarClientes(): void{
     this.clienteService.getAll().subscribe(
       (clientes: Cliente[]) => {
         this.clientes = clientes;
@@ -73,11 +74,12 @@ export class ClientesComponent implements OnInit {
   }
   public cancelar(): void{
     this.clienteEmEdicao = null;
+    this.closeModal();
   }
 
   criarForm(): void {
     this.clienteForm = this.fb.group({
-      clienteId: [''],
+      clienteId: [0],
       nome : ['', Validators.required],
       dataNascimento : ['', Validators.required],
       sexo : ['', Validators.required],
@@ -103,5 +105,46 @@ export class ClientesComponent implements OnInit {
         console.log(erro);
       }
     );
+  }
+
+  salvarNovoCliente(): void{
+    var cliente = this.clienteForm.value;
+    console.log(cliente);
+    this.clienteService.post(cliente).subscribe(
+      (cliente: Cliente) => {
+        console.log(cliente);
+        this.carregarClientes();
+        this.closeModal();
+      },
+      (erro: any) => {
+        console.log(erro);
+      }
+    );
+  }
+
+  removerCliente(clienteId: number): void{
+    this.clienteService.delete(clienteId).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.carregarClientes();
+      },
+      (erro: any) => {
+        console.log(erro);
+      }
+    );
+  }
+
+  buscarEndereco(cep: string){
+    this.clienteService.getEndereco(cep).subscribe(
+      (response: any) => {
+        this.clienteSelecionado.rua = response.logradouro;
+        this.clienteSelecionado.bairro = response.bairro;
+        this.clienteSelecionado.cidade = response.localidade;
+        this.clienteSelecionado.estado = response.uf; 
+      },
+      (erro: any) => {
+        console.log(erro);
+      }
+    )
   }
 }

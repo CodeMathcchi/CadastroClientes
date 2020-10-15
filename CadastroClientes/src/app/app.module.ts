@@ -14,13 +14,12 @@ import { TituloComponent } from './titulo/titulo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [					
+  declarations: [						
     AppComponent,
     ClientesComponent,
     HomeComponent,
     NavComponent,
     TituloComponent,
-      
    ],
   imports: [
     BrowserModule,

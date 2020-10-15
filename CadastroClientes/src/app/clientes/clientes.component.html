@@ -1,6 +1,13 @@
 <div class="row">
   <div [ngClass]="{'col-sm-6': clienteSelecionado, 'col-sm-12': !clienteSelecionado}">
-    <app-titulo [titulo]="titulo"></app-titulo>
+    <div class="row">
+      <div class="mr-auto">
+        <app-titulo [titulo]="titulo" ></app-titulo>
+      </div>
+      <div>
+        <button (click)="openModal(template)" type="button" class="btn btn-success">Novo</button>
+      </div>
+    </div>
     <table class="table table-hover">
       <thead class="thead-dark">
         <tr>
@@ -18,10 +25,10 @@
             <path fill-rule="evenodd" d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z"/>
             <path fill-rule="evenodd" d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z"/>
           </svg></button>
-          <button (click)="openModal(template, cliente)" class="btn btn-action btn-sm btn-warning"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <button (click)="editarCliente(cliente)" class="btn btn-action btn-sm btn-warning"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
           </svg></button>
-          <button class="btn btn-action btn-sm btn-danger"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <button (click)="removerCliente(cliente.clienteId)" class="btn btn-action btn-sm btn-danger"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="white" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
           </svg></button>
         </td>
@@ -113,7 +120,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="clienteForm" (submit)="clienteSubmit()">
+    <form [formGroup]="clienteForm" (submit)="salvarNovoCliente()">
       <div class="form-group">
         <label for="formGroupExampleInput">Nome <i style="color: red;">*</i></label>
         <input type="text" class="form-control" formControlName="nome" required>
@@ -121,7 +128,7 @@
       <div class="row">
         <div class="form-group col-sm-10">
           <label for="formGroupExampleInput2">Data de Nascimento <i style="color: red;">*</i></label>
-          <input type="text" class="form-control" formControlName="dataNascimento" required>
+          <input type="date" class="form-control" formControlName="dataNascimento" required>
         </div>
         <div class="form-group col-sm-2">
           <label for="formGroupExampleInput2">Sexo <i style="color: red;">*</i></label>
@@ -132,6 +139,10 @@
       <h2>Endereço</h2>
       <div class="row btn-group">
         <div class="form-group col-sm-9">
+          <label for="formGroupExampleInput2">CEP</label>
+          <input (change)="buscarEndereco(cep)" type="text" class="form-control" formControlName="cep">
+        </div>
+        <div class="form-group col-sm-9">
           <label for="formGroupExampleInput2">Rua</label>
           <input type="text" class="form-control" formControlName="rua">
         </div>
@@ -141,12 +152,26 @@
         </div>
       </div>
       <div class="form-group">
+        <label for="formGroupExampleInput2">Complemento</label>
+        <input type="text" class="form-control" formControlName="complemento">
+      </div>
+      <div class="form-group">
         <label for="formGroupExampleInput2">Bairro</label>
         <input type="text" class="form-control" formControlName="bairro">
       </div>
-      <div class="button-group modal-footer">
-        <button (click)="closeModal()" class="btn btn-danger" [disabled]="!clienteForm.valid">Cancelar</button>
-        <button class="btn btn-primary" [disabled]="!clienteForm.valid">Salvar</button>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label for="formGroupExampleInput2">Estado</label>
+          <input type="text" class="form-control" formControlName="estado">
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="formGroupExampleInput2">Cidade</label>
+          <input type="text" class="form-control" formControlName="cidade">
+        </div>
+      </div>
+      <div class="form-footer">
+        <button (click)="cancelar()" type="submit" class="btn btn-danger">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!clienteForm.valid">Salvar</button>
       </div>
     </form>
   </div>
