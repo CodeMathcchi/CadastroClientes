@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -14,6 +15,7 @@ export class ClientesComponent implements OnInit {
   public clienteForm: FormGroup;
 
   titulo = 'Clientes';
+  private cepModel: string;
 
   public clienteSelecionado: Cliente;
   public clienteEmEdicao: Cliente;
@@ -24,7 +26,8 @@ export class ClientesComponent implements OnInit {
   
   constructor(private fb: FormBuilder, 
               private modalService: BsModalService, 
-              private clienteService: ClienteService) {
+              private clienteService: ClienteService,
+              private datePipe: DatePipe) {
     this.criarForm();
   }
   
@@ -51,6 +54,9 @@ export class ClientesComponent implements OnInit {
   public carregarClientes(): void{
     this.clienteService.getAll().subscribe(
       (clientes: Cliente[]) => {
+        // clientes.forEach(cliente => {
+        //   cliente.dataNascimento = new Date(this.datePipe.transform(cliente.dataNascimento));
+        // });
         this.clientes = clientes;
         console.log(this.clientes);
       },
@@ -81,15 +87,15 @@ export class ClientesComponent implements OnInit {
     this.clienteForm = this.fb.group({
       clienteId: [0],
       nome : ['', Validators.required],
-      dataNascimento : ['', Validators.required],
+      dataNascimento : [new Date(), Validators.required],
       sexo : ['', Validators.required],
       cep: [''],
-      rua : [''],
+      logradouro : [''],
       numero : [''],
       complemento: [''],
       bairro : [''],
-      estado: [''],
-      cidade: ['']
+      uf: [''],
+      localidade: ['']
     });
   }
 
@@ -97,7 +103,6 @@ export class ClientesComponent implements OnInit {
     var cliente = this.clienteForm.value;
     this.clienteService.put(cliente.clienteId, cliente).subscribe(
       (cliente: Cliente) => {
-        console.log(cliente);
         this.carregarClientes();
         this.clienteEmEdicao = null;
       },
@@ -109,12 +114,13 @@ export class ClientesComponent implements OnInit {
 
   salvarNovoCliente(): void{
     var cliente = this.clienteForm.value;
-    console.log(cliente);
+    let data =  new Date(cliente.dataNascimento);
+    console.log(cliente.dataNascimento);
     this.clienteService.post(cliente).subscribe(
       (cliente: Cliente) => {
-        console.log(cliente);
         this.carregarClientes();
         this.closeModal();
+        this.cepModel = null;
       },
       (erro: any) => {
         console.log(erro);
@@ -137,10 +143,11 @@ export class ClientesComponent implements OnInit {
   buscarEndereco(cep: string){
     this.clienteService.getEndereco(cep).subscribe(
       (response: any) => {
-        this.clienteSelecionado.rua = response.logradouro;
-        this.clienteSelecionado.bairro = response.bairro;
-        this.clienteSelecionado.cidade = response.localidade;
-        this.clienteSelecionado.estado = response.uf; 
+        this.clienteForm.patchValue(response);
+        // this.clienteForm.value.rua = response.logradouro;
+        // this.clienteForm.value.bairro = response.bairro;
+        // this.clienteForm.value.cidade = response.localidade;
+        // this.clienteForm.value.estado = response.uf; 
       },
       (erro: any) => {
         console.log(erro);

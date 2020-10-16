@@ -4,10 +4,10 @@ export class Cliente {
     dataNascimento: Date;
     sexo: string;
     cep: string;
-    rua: string;
+    logradouro: string;
     numero: number;
     complemento: string;
     bairro: string;
-    estado: string;
-    cidade: string;
+    uf: string;
+    localidade: string;
 }

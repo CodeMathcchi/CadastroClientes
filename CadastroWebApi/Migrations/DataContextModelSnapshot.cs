@@ -29,16 +29,16 @@ namespace CadastroWebApi.Migrations
                     b.Property<string>("Cep")
                         .HasColumnType("text");
 
-                    b.Property<string>("Cidade")
-                        .HasColumnType("text");
-
                     b.Property<string>("Complemento")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Estado")
+                    b.Property<string>("Localidade")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Logradouro")
                         .HasColumnType("text");
 
                     b.Property<string>("Nome")
@@ -47,10 +47,10 @@ namespace CadastroWebApi.Migrations
                     b.Property<string>("Numero")
                         .HasColumnType("text");
 
-                    b.Property<string>("Rua")
+                    b.Property<string>("Sexo")
                         .HasColumnType("text");
 
-                    b.Property<string>("Sexo")
+                    b.Property<string>("Uf")
                         .HasColumnType("text");
 
                     b.HasKey("ClienteId");
@@ -63,56 +63,56 @@ namespace CadastroWebApi.Migrations
                             ClienteId = 1L,
                             Bairro = "Muggles",
                             Cep = "95055-268",
-                            Cidade = "Maringá",
                             Complemento = "",
                             DataNascimento = new DateTime(1995, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Estado = "PR",
+                            Localidade = "Maringá",
+                            Logradouro = "Rua Alfeiros",
                             Nome = "Matheus Gomes Roberto dos Santos",
                             Numero = "4",
-                            Rua = "Rua Alfeiros",
-                            Sexo = "Maculino"
+                            Sexo = "Masculino",
+                            Uf = "PR"
                         },
                         new
                         {
                             ClienteId = 2L,
                             Bairro = "Muggles",
                             Cep = "95055-268",
-                            Cidade = "Maringá",
                             Complemento = "",
                             DataNascimento = new DateTime(1999, 12, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Estado = "PR",
+                            Localidade = "Maringá",
+                            Logradouro = "Rua Alfeiros",
                             Nome = "Lucas Souza de Gois",
                             Numero = "4",
-                            Rua = "Rua Alfeiros",
-                            Sexo = "Maculino"
+                            Sexo = "Masculino",
+                            Uf = "PR"
                         },
                         new
                         {
                             ClienteId = 3L,
                             Bairro = "Gopauva",
                             Cep = "823489-025",
-                            Cidade = "São Paulo",
                             Complemento = "",
                             DataNascimento = new DateTime(1941, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Estado = "SP",
+                            Localidade = "São Paulo",
+                            Logradouro = "Alameda Yaya",
                             Nome = "Bethy da Silva",
                             Numero = "257",
-                            Rua = "Alameda Yaya",
-                            Sexo = "Feminino"
+                            Sexo = "Feminino",
+                            Uf = "SP"
                         },
                         new
                         {
                             ClienteId = 4L,
                             Bairro = "Fim do Universo",
                             Cep = "78964-568",
-                            Cidade = "Maringá",
                             Complemento = "Apt. 1101",
                             DataNascimento = new DateTime(1996, 1, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Estado = "PR",
-                            Nome = "Lívia Peron Bernardo",
+                            Localidade = "Maringá",
+                            Logradouro = "Rua da Toalha",
+                            Nome = "Lívia Bernardo",
                             Numero = "42",
-                            Rua = "Rua da Toalha",
-                            Sexo = "Feminino"
+                            Sexo = "Feminino",
+                            Uf = "PR"
                         });
                 });
 #pragma warning restore 612, 618

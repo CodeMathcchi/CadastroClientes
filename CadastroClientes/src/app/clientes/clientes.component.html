@@ -34,7 +34,7 @@
         </td>
         <th scope="row">{{cliente.clienteId}}</th>
           <td>{{cliente.nome}}</td>
-          <td>{{cliente.dataNascimento}}</td>
+          <td>{{cliente.dataNascimento | date: "dd/MM/yyyy"}}</td>
           <td>{{cliente.sexo}}</td>
         </tr>
       </tbody>
@@ -57,16 +57,16 @@
     </div>
     <form [formGroup]="clienteForm" (submit)="salvarCliente()">
       <div class="form-group">
-        <label for="formGroupExampleInput">Nome <i style="color: red;">*</i></label>
+        <label for="nome">Nome <i style="color: red;">*</i></label>
         <input type="text" class="form-control" formControlName="nome" required [readonly]="!clienteEmEdicao">
       </div>
       <div class="row">
         <div class="form-group col-sm-10">
-          <label for="formGroupExampleInput2">Data de Nascimento <i style="color: red;">*</i></label>
-          <input type="text" class="form-control" formControlName="dataNascimento" required [readonly]="!clienteEmEdicao">
+          <label for="dataNascimento">Data de Nascimento <i style="color: red;">*</i></label>
+          <input type="text" class="form-control" formControlName="dataNascimento" required [readonly]="!clienteEmEdicao" mask="00/00/0000">
         </div>
         <div class="form-group col-sm-2">
-          <label for="formGroupExampleInput2">Sexo <i style="color: red;">*</i></label>
+          <label for="sexo">Sexo <i style="color: red;">*</i></label>
           <input type="text" class="form-control" formControlName="sexo" required [readonly]="!clienteEmEdicao">
         </div>
       </div>
@@ -75,11 +75,11 @@
       <div class="row btn-group">
         <div class="form-group col-sm-9">
           <label for="formGroupExampleInput2">CEP</label>
-          <input type="text" class="form-control" formControlName="cep" [readonly]="!clienteEmEdicao">
+          <input (change)="buscarEndereco(cepModel)" type="text" class="form-control" formControlName="cep" [readonly]="!clienteEmEdicao" mask="00000-000">
         </div>
         <div class="form-group col-sm-9">
-          <label for="formGroupExampleInput2">Rua</label>
-          <input type="text" class="form-control" formControlName="rua" [readonly]="!clienteEmEdicao">
+          <label for="formGroupExampleInput2">Logradouro</label>
+          <input type="text" class="form-control" formControlName="logradouro" [readonly]="!clienteEmEdicao">
         </div>
         <div class="form-group col-sm-3">
           <label for="formGroupExampleInput2">Nº</label>
@@ -96,12 +96,12 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6">
-          <label for="formGroupExampleInput2">Estado</label>
-          <input type="text" class="form-control" formControlName="estado" [readonly]="!clienteEmEdicao">
+          <label for="formGroupExampleInput2">UF</label>
+          <input type="text" class="form-control" formControlName="uf" [readonly]="!clienteEmEdicao">
         </div>
         <div class="form-group col-sm-6">
           <label for="formGroupExampleInput2">Cidade</label>
-          <input type="text" class="form-control" formControlName="cidade" [readonly]="!clienteEmEdicao">
+          <input type="text" class="form-control" formControlName="localidade" [readonly]="!clienteEmEdicao">
         </div>
       </div>
       <div class="form-footer">
@@ -128,7 +128,7 @@
       <div class="row">
         <div class="form-group col-sm-10">
           <label for="formGroupExampleInput2">Data de Nascimento <i style="color: red;">*</i></label>
-          <input type="date" class="form-control" formControlName="dataNascimento" required>
+          <input type="text" class="form-control" formControlName="dataNascimento" required mask="00/00/0000">
         </div>
         <div class="form-group col-sm-2">
           <label for="formGroupExampleInput2">Sexo <i style="color: red;">*</i></label>
@@ -140,11 +140,11 @@
       <div class="row btn-group">
         <div class="form-group col-sm-9">
           <label for="formGroupExampleInput2">CEP</label>
-          <input (change)="buscarEndereco(cep)" type="text" class="form-control" formControlName="cep">
+          <input (change)="buscarEndereco(cepModel)"  [(ngModel)]="cepModel" type="text" class="form-control" formControlName="cep" mask="00000-000">
         </div>
         <div class="form-group col-sm-9">
-          <label for="formGroupExampleInput2">Rua</label>
-          <input type="text" class="form-control" formControlName="rua">
+          <label for="formGroupExampleInput2">Logradouro</label>
+          <input type="text" class="form-control" formControlName="logradouro">
         </div>
         <div class="form-group col-sm-3">
           <label for="formGroupExampleInput2">Nº</label>
@@ -161,12 +161,12 @@
       </div>
       <div class="row">
         <div class="form-group col-sm-6">
-          <label for="formGroupExampleInput2">Estado</label>
-          <input type="text" class="form-control" formControlName="estado">
+          <label for="formGroupExampleInput2">UF</label>
+          <input type="text" class="form-control" formControlName="uf">
         </div>
         <div class="form-group col-sm-6">
           <label for="formGroupExampleInput2">Cidade</label>
-          <input type="text" class="form-control" formControlName="cidade">
+          <input type="text" class="form-control" formControlName="localidade">
         </div>
       </div>
       <div class="form-footer">

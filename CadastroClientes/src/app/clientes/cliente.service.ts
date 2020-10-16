@@ -34,7 +34,8 @@ export class ClienteService {
   }
 
   getEndereco(cep: string){
-    var urlApi = `https://viacep.com.br/ws/${cep}/json/`;
+    console.log(cep);
+    var urlApi = `https://cors-anywhere.herokuapp.com/https://viacep.com.br/ws/${cep}/json/`;
     return this.http.get(urlApi);
   }
 }
