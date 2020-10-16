@@ -6580,11 +6580,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mathc\\Desktop\\repos\\CRMALL_Cadastro\\CadastroWebApi\\CadastroWebApi.csproj",
+      "projectUniqueName": "C:\\Users\\mathc\\Desktop\\repos\\Cadastro\\CadastroWebApi\\CadastroWebApi.csproj",
       "projectName": "CadastroWebApi",
-      "projectPath": "C:\\Users\\mathc\\Desktop\\repos\\CRMALL_Cadastro\\CadastroWebApi\\CadastroWebApi.csproj",
+      "projectPath": "C:\\Users\\mathc\\Desktop\\repos\\Cadastro\\CadastroWebApi\\CadastroWebApi.csproj",
       "packagesPath": "C:\\Users\\mathc\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mathc\\Desktop\\repos\\CRMALL_Cadastro\\CadastroWebApi\\obj\\",
+      "outputPath": "C:\\Users\\mathc\\Desktop\\repos\\Cadastro\\CadastroWebApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mathc\\AppData\\Roaming\\NuGet\\NuGet.Config"

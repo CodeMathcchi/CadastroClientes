@@ -2,5 +2,8 @@ button.btn.btn-action{
     border-radius: 50%;
 }
 button{
-    margin-right: 15px;
+    margin-right: 0.5em;
+}
+div.button-group{
+    margin-bottom: 1em;
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DnbyuGtiTSXl6mruJrRUc1YhxE/RYLgw3JJOfVYCqjMZev+xkq+HglYrT/jamGFkx4XHaR5BjNsrR9G+mTRtEQ==",
+  "dgSpecHash": "45u2ZvHtJyhRaI4mJU6k8+mhUump8xKfQIxsjia/cRALJUy8M9DesM6rWRWvSkqQlmz9aD72CeL+wBcxy8eQfg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mathc\\Desktop\\repos\\CRMALL_Cadastro\\CadastroWebApi\\CadastroWebApi.csproj",
+  "projectFilePath": "C:\\Users\\mathc\\Desktop\\repos\\Cadastro\\CadastroWebApi\\CadastroWebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mathc\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
     "C:\\Users\\mathc\\.nuget\\packages\\google.protobuf\\3.6.1\\google.protobuf.3.6.1.nupkg.sha512",

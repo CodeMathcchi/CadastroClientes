@@ -15,7 +15,9 @@ export class ClientesComponent implements OnInit {
   public clienteForm: FormGroup;
 
   titulo = 'Clientes';
-  private cepModel: string;
+  public cepModel: string;
+  public dataModel: string;
+  public msgErro: string;
 
   public clienteSelecionado: Cliente;
   public clienteEmEdicao: Cliente;
@@ -31,32 +33,29 @@ export class ClientesComponent implements OnInit {
     this.criarForm();
   }
   
-  openModal(template: TemplateRef<any>): void {
-    this.criarForm();
-    this.modalRef = this.modalService.show(template);
-  }
-
-  closeModal(): void{
-    this.modalRef.hide();
-    this.clienteEmEdicao = null;
-  }
-
-  editarCliente(cliente: Cliente): void{
-    this.clienteEmEdicao = cliente;
-    this.clienteSelecionado = cliente;
-    this.clienteForm.patchValue(cliente);
-  }
-
   ngOnInit(): void {
     this.carregarClientes();
+  }
+
+  public criarForm(): void {
+    this.clienteForm = this.fb.group({
+      clienteId: [0],
+      nome : ['', Validators.required],
+      dataNascimento : ['', Validators.required],
+      sexo : ['', Validators.required],
+      cep: [''],
+      logradouro : [''],
+      numero : [''],
+      complemento: [''],
+      bairro : [''],
+      uf: [''],
+      localidade: ['']
+    });
   }
 
   public carregarClientes(): void{
     this.clienteService.getAll().subscribe(
       (clientes: Cliente[]) => {
-        // clientes.forEach(cliente => {
-        //   cliente.dataNascimento = new Date(this.datePipe.transform(cliente.dataNascimento));
-        // });
         this.clientes = clientes;
         console.log(this.clientes);
       },
@@ -67,36 +66,55 @@ export class ClientesComponent implements OnInit {
   }
 
   selecionarCliente(cliente: Cliente): void {
+    this.dataModel = this.formatarData(cliente);
+    this.cepModel = cliente.cep;
     this.clienteSelecionado = cliente;
-    console.log(cliente);
     this.clienteForm.patchValue(cliente);
+    this.clienteForm.disable();
+  }
+
+  public openModal(template: TemplateRef<any>): void {
+    this.criarForm();
+    this.modalRef = this.modalService.show(template);
+  }
+
+  public closeModal(): void{
+    this.modalRef.hide();
+    this.clienteEmEdicao = null;
+  }
+
+  public editarCliente(cliente: Cliente): void{
+    this.clienteEmEdicao = cliente;
+    this.clienteSelecionado = cliente;
+    this.dataModel = this.formatarData(cliente);
+    this.cepModel = cliente.cep;
+    this.clienteForm.enable();
+    this.clienteForm.patchValue(cliente);
+  }
+
+  public buscarEndereco(cep: string): void{
+    this.clienteService.getEndereco(cep).subscribe(
+      (response: any) => {
+        this.clienteForm.patchValue(response);
+      },
+      (erro: any) => {
+        console.log(erro);
+      }
+    )
   }
 
   public voltar(): void {
     this.clienteSelecionado = null;
-    if (this.clienteEmEdicao){
-      this.clienteEmEdicao = null;
-    }
-  }
-  public cancelar(): void{
     this.clienteEmEdicao = null;
-    this.closeModal();
+    this.atualizarNgModel(this.clienteSelecionado);
+    this.criarForm();
+    this.clienteForm.disable();
   }
 
-  criarForm(): void {
-    this.clienteForm = this.fb.group({
-      clienteId: [0],
-      nome : ['', Validators.required],
-      dataNascimento : [new Date(), Validators.required],
-      sexo : ['', Validators.required],
-      cep: [''],
-      logradouro : [''],
-      numero : [''],
-      complemento: [''],
-      bairro : [''],
-      uf: [''],
-      localidade: ['']
-    });
+  public cancelar(): void{
+    this.clienteEmEdicao = null;
+    this.clienteForm.disable();
+    this.closeModal();
   }
 
   salvarCliente(): void{
@@ -109,13 +127,12 @@ export class ClientesComponent implements OnInit {
       (erro: any) => {
         console.log(erro);
       }
-    );
+      );
+      this.clienteForm.disable();
   }
 
   salvarNovoCliente(): void{
     var cliente = this.clienteForm.value;
-    let data =  new Date(cliente.dataNascimento);
-    console.log(cliente.dataNascimento);
     this.clienteService.post(cliente).subscribe(
       (cliente: Cliente) => {
         this.carregarClientes();
@@ -131,27 +148,23 @@ export class ClientesComponent implements OnInit {
   removerCliente(clienteId: number): void{
     this.clienteService.delete(clienteId).subscribe(
       (response: any) => {
-        console.log(response);
         this.carregarClientes();
       },
       (erro: any) => {
         console.log(erro);
       }
     );
+    this.voltar();
   }
 
-  buscarEndereco(cep: string){
-    this.clienteService.getEndereco(cep).subscribe(
-      (response: any) => {
-        this.clienteForm.patchValue(response);
-        // this.clienteForm.value.rua = response.logradouro;
-        // this.clienteForm.value.bairro = response.bairro;
-        // this.clienteForm.value.cidade = response.localidade;
-        // this.clienteForm.value.estado = response.uf; 
-      },
-      (erro: any) => {
-        console.log(erro);
-      }
-    )
+  private formatarData(cliente: Cliente): string {
+    return this.datePipe.transform(cliente.dataNascimento, "yyyy-MM-dd");
   }
+
+  atualizarNgModel(cliente: Cliente) {
+    this.cepModel = null;
+    this.dataModel = null;
+    this.msgErro = null;
+  }
+
 }
